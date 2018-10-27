@@ -109,7 +109,7 @@ class ILNode {
         context.save()
         context.translate(gap * this.i + gap, h/2)
         for (var j = 0; j < 2; j++) {
-            const sc : number = Math.min(0.5, Math.max(0, this.state.scale - 0.5 * j))
+            const sc : number = Math.min(0.5, Math.max(0, this.state.scale - 0.5 * j)) * 2
             context.save()
             context.rotate(Math.PI/2 * j + Math.PI/2 * sc * (2 * j - 1))
             context.beginPath()
@@ -119,6 +119,9 @@ class ILNode {
             context.restore()
         }
         context.restore()
+        if (this.next) {
+            this.next.draw(context)
+        }
     }
 
     update(cb : Function) {
@@ -144,7 +147,7 @@ class ILNode {
 
 class Inverted90LineStep {
     root : ILNode = new ILNode(0)
-    curr : ILNode = this.curr
+    curr : ILNode = this.root
     dir : number = 1
     draw(context : CanvasRenderingContext2D) {
         this.root.draw(context)
